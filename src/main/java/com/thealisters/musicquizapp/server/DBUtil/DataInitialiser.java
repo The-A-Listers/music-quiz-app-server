@@ -11,32 +11,52 @@ import com.thealisters.musicquizapp.server.repository.SongRepository;
 import com.opencsv.CSVReader;
 
 import java.io.FileReader;
+import java.io.UnsupportedEncodingException;
+import java.net.URL;
+import java.net.URLDecoder;
 import java.util.List;
 
 @Component
 public class DataInitialiser implements CommandLineRunner{
 
+    public static final String SONGS_LIST_TSV = "SongsList.tsv";
+    public static final String ENCODING_TYPE = "UTF-8";
     @Autowired
     private SongRepository songRepository;
 
     @Override
     public void run(String... args) {
 
-        String tsvFilePath = "../resources/SongsList.tsv";
-
-        if (songRepository.count() == 0) {
-
-            try (CSVReader reader = new CSVReaderBuilder(new FileReader(tsvFilePath))
-                    .withCSVParser(new CSVParserBuilder().withSeparator('\t').build())
-                    .build()) {
-                List<String[]> csvData = reader.readAll();
-
-                for (String[] row : csvData) {
-                    Song entity = convertCSVRowToEntity(row);
-                    songRepository.save(entity);
+        URL resource = getClass().getClassLoader().getResource(SONGS_LIST_TSV);
+        if (resource != null) {
+            String tsvFilePath = resource.getPath();
+            if (tsvFilePath != null) {
+                try {
+                    tsvFilePath = URLDecoder.decode(tsvFilePath, ENCODING_TYPE);
+                } catch (UnsupportedEncodingException e) {
+                    System.err.println(e.getMessage());
                 }
-            } catch (Exception exception) {
-                System.err.println(exception.getMessage());
+
+                System.out.println("tsvFilePath: " + tsvFilePath);
+                if (songRepository.count() == 0) {
+
+                    try (CSVReader reader = new CSVReaderBuilder(new FileReader(tsvFilePath))
+                            .withCSVParser(new CSVParserBuilder().withSeparator('\t').build())
+                            .build()) {
+                        List<String[]> csvData = reader.readAll();
+
+                        for (String[] row : csvData) {
+                            Song entity = convertCSVRowToEntity(row);
+                            songRepository.save(entity);
+                        }
+                    } catch (Exception exception) {
+                        System.err.println(exception.getMessage());
+                    }
+                }
+            } else {
+                System.out.println("File Path is incorrect cannot fetch SongsList.tsv");
+                // TO DO
+                //Raise custom exception
             }
         }
     }
