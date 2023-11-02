@@ -1,4 +1,4 @@
-package com.thealisters.musicquizapp.server.controller;
+package com.thealisters.musicquizapp.server.controller.dto;
 
 public class MusicQuizGameDTO {
     private String userId;

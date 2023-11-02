@@ -1,11 +1,14 @@
 package com.thealisters.musicquizapp.server.controller;
 
+
 import org.springframework.web.bind.annotation.*;
+import com.thealisters.musicquizapp.server.controller.dto.MusicQuizGameDTO;
 
 @RestController
 @RequestMapping("/game")
 public class GameController {
 
+    // TODO
     @GetMapping
     public void requestGame(){
 
