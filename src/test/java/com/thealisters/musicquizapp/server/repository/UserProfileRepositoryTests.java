@@ -1,6 +1,5 @@
 package com.thealisters.musicquizapp.server.repository;
 
-import com.thealisters.musicquizapp.server.model.GameScore;
 import com.thealisters.musicquizapp.server.model.UserProfile;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
