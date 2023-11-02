@@ -2,6 +2,7 @@ package com.thealisters.musicquizapp.server.DBUtil;
 
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReaderBuilder;
+import com.thealisters.musicquizapp.server.exception.SongInitialisationException;
 import com.thealisters.musicquizapp.server.model.Song;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -17,7 +18,7 @@ import java.net.URLDecoder;
 import java.util.List;
 
 @Component
-public class DataInitialiser implements CommandLineRunner{
+public class SongInitialiser implements CommandLineRunner{
 
     public static final String SONGS_LIST_TSV = "SongsList.tsv";
     public static final String ENCODING_TYPE = "UTF-8";
@@ -25,7 +26,7 @@ public class DataInitialiser implements CommandLineRunner{
     private SongRepository songRepository;
 
     @Override
-    public void run(String... args) {
+    public void run(String... args) throws SongInitialisationException {
 
         URL resource = getClass().getClassLoader().getResource(SONGS_LIST_TSV);
         if (resource != null) {
@@ -34,10 +35,9 @@ public class DataInitialiser implements CommandLineRunner{
                 try {
                     tsvFilePath = URLDecoder.decode(tsvFilePath, ENCODING_TYPE);
                 } catch (UnsupportedEncodingException e) {
-                    System.err.println(e.getMessage());
+                    throw new SongInitialisationException(e.getMessage());
                 }
 
-                System.out.println("tsvFilePath: " + tsvFilePath);
                 if (songRepository.count() == 0) {
 
                     try (CSVReader reader = new CSVReaderBuilder(new FileReader(tsvFilePath))
@@ -54,9 +54,7 @@ public class DataInitialiser implements CommandLineRunner{
                     }
                 }
             } else {
-                System.out.println("File Path is incorrect cannot fetch SongsList.tsv");
-                // TO DO
-                //Raise custom exception
+                throw new SongInitialisationException("File Path is incorrect cannot fetch SongsList.tsv");
             }
         }
     }
