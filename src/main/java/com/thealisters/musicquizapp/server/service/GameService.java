@@ -5,6 +5,7 @@ import com.thealisters.musicquizapp.server.dto.GamePostRequestDTO;
 
 public interface GameService {
 
-    GamePostRequestDTO insertGameResult(GamePostRequestDTO gamePostRequestDTO);
+    GamePostRequestDTO insertGameResult(GamePostRequestDTO gamePostRequestDTO,
+                                        GameGetResponseDTO gameGetResponseDTO);
     GameGetResponseDTO getGameInputs(int numberOfSongs);
 }
