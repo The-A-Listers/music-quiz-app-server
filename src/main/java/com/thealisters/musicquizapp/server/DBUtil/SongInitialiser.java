@@ -65,9 +65,11 @@ public class SongInitialiser implements CommandLineRunner{
         }
         int songRankId = Integer.parseInt(row[0]);
         String songName = row[1];
+        String songArtist = row[2];
         Song song = new Song();
         song.setSongRankId(songRankId);
         song.setSongName(songName);
+        song.setSongArtist(songArtist);
         song.setSongHealth(true);
         return song;
     }
