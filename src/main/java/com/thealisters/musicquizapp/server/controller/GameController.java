@@ -12,7 +12,7 @@ import com.thealisters.musicquizapp.server.dto.GamePostRequestDTO;
 import org.springframework.http.HttpHeaders;
 
 @RestController
-@RequestMapping("/game")
+
 public class GameController {
 
     @Autowired
