@@ -4,9 +4,12 @@ package com.thealisters.musicquizapp.server.controller;
 import com.thealisters.musicquizapp.server.dto.GameGetResponseDTO;
 import com.thealisters.musicquizapp.server.exception.MusicGameNotFoundException;
 import com.thealisters.musicquizapp.server.service.GameService;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.thealisters.musicquizapp.server.dto.GamePostRequestDTO;
@@ -31,14 +34,40 @@ public class GameController {
     }
 
     // TODO
-    @GetMapping("/game")
-    public ResponseEntity<GameGetResponseDTO> getGame()
+    @GetMapping(value="/game", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<String> getGame()
             throws MusicGameNotFoundException{
-        GameGetResponseDTO gameGetResponseDTO = gameService.getGameInputs(NUMBER_OF_SONGS);
-        if (gameGetResponseDTO == null){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        try {
+            GameGetResponseDTO gameGetResponseDTO = gameService.getGameInputs(NUMBER_OF_SONGS);
+            if (gameGetResponseDTO == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+            JSONObject songsJsonObject = convertGameGetResponseDTOToJSONObject(gameGetResponseDTO);
+            return ResponseEntity.ok(songsJsonObject.toString());
+        }catch(Exception e){
+            throw new RuntimeException("Exception"+e.getMessage());
         }
-        return ResponseEntity.ok(gameGetResponseDTO);
+    }
+
+    private JSONObject convertGameGetResponseDTOToJSONObject(GameGetResponseDTO gameGetResponseDTO){
+        JSONObject jsonObject = new JSONObject();
+        JSONArray songNameArray = createJSONObject(gameGetResponseDTO.getSongNameForSelection(),"songName");
+        JSONArray songURLArray =  createJSONObject(gameGetResponseDTO.getSongURLForSelection(),"songURL");
+
+        jsonObject.put("songNames", songNameArray);
+        jsonObject.put("songURLArray", songURLArray);
+        return jsonObject;
+
+    }
+
+    private JSONArray createJSONObject(String[] arrayToConvert, String id){
+        JSONArray jsonArray = new JSONArray();
+        for(String item : arrayToConvert){
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put(id,item);
+            jsonArray.put(jsonObject);
+        }
+        return jsonArray;
     }
 
     @PostMapping
