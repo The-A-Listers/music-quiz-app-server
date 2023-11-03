@@ -8,9 +8,6 @@ public class GameGetResponseDTO {
     private String[] songNameForSelection;
 
     @Setter
-    private String[] artistNameForSelection;
-
-    @Setter
     private String[] songURLForSelection;
 
 }

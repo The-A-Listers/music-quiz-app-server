@@ -29,6 +29,7 @@ public class GameServiceImpl implements GameService{
         gameGetResponseDTO.setSongNameForSelection(songNamesForSelection);
 
         String[] songURLForSelection = deezerService.getSongURL(songNamesForSelection);
+        gameGetResponseDTO.setSongURLForSelection(songURLForSelection);
         return gameGetResponseDTO;
     }
 

@@ -14,14 +14,19 @@ import javax.annotation.processing.Generated;
 
 
 @RestController
-@RequestMapping("")
+@RequestMapping("${root.context}")
 public class RootController {
 
-    private static final String rootContext = "/api/v1/musicquiz";
-    @Autowired
+    @Value("${root.context}")
+    private String rootContext;
+
     @GetMapping
     public ResponseEntity<String> handleRoot() {
         return ResponseEntity.ok("The AListers Music Quiz API!");
     }
 
+    @RequestMapping("/")
+    public String rootContextRequestMapping(){
+        return rootContext;
+    }
 }

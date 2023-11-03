@@ -5,6 +5,7 @@ import com.thealisters.musicquizapp.server.dto.GameGetResponseDTO;
 import com.thealisters.musicquizapp.server.exception.MusicGameNotFoundException;
 import com.thealisters.musicquizapp.server.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,8 +13,11 @@ import com.thealisters.musicquizapp.server.dto.GamePostRequestDTO;
 import org.springframework.http.HttpHeaders;
 
 @RestController
-
+@RequestMapping("${root.context}")
 public class GameController {
+
+    @Value("${root.context}")
+    private String rootContext;
 
     @Autowired
     GameService gameService;
@@ -27,7 +31,7 @@ public class GameController {
     }
 
     // TODO
-    @GetMapping
+    @GetMapping("/game")
     public ResponseEntity<GameGetResponseDTO> getGame()
             throws MusicGameNotFoundException{
         GameGetResponseDTO gameGetResponseDTO = gameService.getGameInputs(NUMBER_OF_SONGS);
