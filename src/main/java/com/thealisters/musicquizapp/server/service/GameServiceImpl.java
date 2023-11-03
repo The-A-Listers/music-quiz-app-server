@@ -16,16 +16,19 @@ public class GameServiceImpl implements GameService{
     @Autowired
     SongRepository songRepository;
 
+    @Autowired
+    DeezerService deezerService;
     @Override
     public GameGetResponseDTO getGameInputs(int numberOfSongs){
         List<Object[]> songListForSelection = songRepository.getRandomSongNames(numberOfSongs);
 
-        //String[] songURLForSelection = deeserService.getSongURL(songNamesForSelection);
         GameGetResponseDTO gameGetResponseDTO = new GameGetResponseDTO();
 
         String[] songNamesForSelection = songListForSelection.stream().map(
-                Object[]::toString).toArray(String[]::new);
+                objects -> (String) objects[0]+","+(String) objects[1]).toArray(String[]::new);
         gameGetResponseDTO.setSongNameForSelection(songNamesForSelection);
+
+        String[] songURLForSelection = deezerService.getSongURL(songNamesForSelection);
         return gameGetResponseDTO;
     }
 
