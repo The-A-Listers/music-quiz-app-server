@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface GameScoreRepository extends JpaRepository<GameScore, Long> {
 
-    @Query(value="SELECT COUNT(*) FROM game_score gs WHERE gs.score > :score OR (gs.score = :score AND gs.time < :time)",nativeQuery=true)
+    @Query(value="SELECT COUNT(*) + 1 FROM game_score gs WHERE gs.score > :score OR (gs.score = :score AND gs.time < :time)",nativeQuery=true)
     int findPositionByScoreAndTime(@Param("score") Integer score, @Param("time") Integer time);
 }
 
