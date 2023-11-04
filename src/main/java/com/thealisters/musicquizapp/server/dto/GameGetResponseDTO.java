@@ -12,4 +12,8 @@ public class GameGetResponseDTO {
     @Getter
     private String[] songURLForSelection;
 
+    @Setter
+    @Getter
+    private String[] correctSongNames;
+
 }

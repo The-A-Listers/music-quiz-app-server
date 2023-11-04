@@ -9,10 +9,10 @@ public class GamePostRequestDTO {
     private String userId;
     @Getter
     @Setter
-    private String[] correctSongName;
+    private String[] songName;
 
     @Setter
-    private String[] correctURL;
+    private String[] songURL;
 
     @Getter
     @Setter
