@@ -5,12 +5,11 @@ import lombok.Setter;
 
 public class GameGetResponseDTO {
     @Setter
+    @Getter
     private String[] songNameForSelection;
 
     @Setter
-    private String[] artistNameForSelection;
-
-    @Setter
+    @Getter
     private String[] songURLForSelection;
 
 }
