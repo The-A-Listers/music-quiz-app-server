@@ -17,6 +17,7 @@ import com.thealisters.musicquizapp.server.dto.GamePostRequestDTO;
 import org.springframework.http.HttpHeaders;
 
 @RestController
+@RequestMapping("/game")
 public class GameController {
 
     @Autowired
@@ -28,7 +29,7 @@ public class GameController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
 
-    @GetMapping(value="/game", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<String> getGame(HttpSession httpSession, int numberOfSongs)
             throws MusicGameNotFoundException{
         try {
