@@ -51,21 +51,19 @@ public class GameController {
 
     private JSONObject convertGameGetResponseDTOToJSONObject(GameGetResponseDTO gameGetResponseDTO){
         JSONObject jsonObject = new JSONObject();
-        JSONArray songNameArray = createJSONObject(gameGetResponseDTO.getSongNameForSelection(),"songName");
-        JSONArray songURLArray =  createJSONObject(gameGetResponseDTO.getSongURLForSelection(),"songURL");
+        JSONArray songNameArray = createJSONObject(gameGetResponseDTO.getSongNameForSelection());
+        JSONArray songURLArray =  createJSONObject(gameGetResponseDTO.getSongURLForSelection());
 
-        jsonObject.put("songNames", songNameArray);
-        jsonObject.put("songURLArray", songURLArray);
+        jsonObject.put("correctSongName", songNameArray);
+        jsonObject.put("correctURL", songURLArray);
         return jsonObject;
 
     }
 
-    private JSONArray createJSONObject(String[] arrayToConvert, String id){
+    private JSONArray createJSONObject(String[] arrayToConvert){
         JSONArray jsonArray = new JSONArray();
         for(String item : arrayToConvert){
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put(id,item);
-            jsonArray.put(jsonObject);
+            jsonArray.put(item);
         }
         return jsonArray;
     }

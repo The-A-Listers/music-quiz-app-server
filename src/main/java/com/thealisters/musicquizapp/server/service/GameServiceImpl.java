@@ -45,6 +45,7 @@ public class GameServiceImpl implements GameService{
             if (songName.equals(gamePostRequestDTO.getCorrectSongName()[index])){
                 score += 1;
             }
+            index += 1;
         }
         GameScore gameScore = new GameScore();
         UserProfile userProfile = new UserProfile();
