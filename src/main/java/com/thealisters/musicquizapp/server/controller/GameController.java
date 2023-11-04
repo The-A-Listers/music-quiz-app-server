@@ -54,8 +54,8 @@ public class GameController {
         JSONArray songNameArray = createJSONObject(gameGetResponseDTO.getSongNameForSelection());
         JSONArray songURLArray =  createJSONObject(gameGetResponseDTO.getSongURLForSelection());
 
-        jsonObject.put("correctSongName", songNameArray);
-        jsonObject.put("correctURL", songURLArray);
+        jsonObject.put("songName", songNameArray);
+        jsonObject.put("songURL", songURLArray);
         return jsonObject;
 
     }
@@ -71,7 +71,6 @@ public class GameController {
     @PostMapping
     public ResponseEntity<GamePostRequestDTO> postGame(@RequestBody GamePostRequestDTO gamePostRequestDTO, HttpSession session){
         GameGetResponseDTO gameGetResponseDTO = (GameGetResponseDTO) session.getAttribute("gameGetResponseDTO");
-        System.out.println("gameGetResponseDTO"+gameGetResponseDTO);
         gamePostRequestDTO = gameService.insertGameResult(gamePostRequestDTO, gameGetResponseDTO);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("musicquizapp","/api/v1/musicquizapp/"+ gamePostRequestDTO.getUserId());
