@@ -31,4 +31,9 @@ class GameScoreRepositoryTests {
         assertThat(gameScores).hasSize(3);
     }
 
+    @Test
+    public void testFindPositionByScoreAndTime(){
+        assertThat(gameScoreRepository.findPositionByScoreAndTime(7,27)).isPositive();
+    }
+
 }
