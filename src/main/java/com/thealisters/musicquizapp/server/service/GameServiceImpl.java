@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.IntStream;
 
 @Service
 public class GameServiceImpl implements GameService{
@@ -34,40 +35,26 @@ public class GameServiceImpl implements GameService{
         String[] songURLForSelection = deezerService.getSongURL(correctSongNames);
         gameGetResponseDTO.setSongURLForSelection(songURLForSelection);
 
-        String[] songNameForSelection = jumbleTheSongNames(Arrays.copyOf(correctSongNames, correctSongNames.length));
+        String[] songNameForSelection = Arrays.copyOf(correctSongNames, correctSongNames.length);
+        jumbleSongNames(songNameForSelection);
         gameGetResponseDTO.setSongNameForSelection(songNameForSelection);
         return gameGetResponseDTO;
     }
 
-    private String[] jumbleTheSongNames(String[] songNamesToJumble){
-        Random random = new Random();
-        for(int i=songNamesToJumble.length - 1; i > 0; i--){
-            int j = random.nextInt(i + 1);
-            String temp = songNamesToJumble[i];
-            songNamesToJumble[i]=songNamesToJumble[j];
-            songNamesToJumble[j]=temp;
-        }
-        return songNamesToJumble;
+    private static void jumbleSongNames(String[] songsToJumble) {
+        Arrays.sort(songsToJumble,(s1, s2) -> new Random().nextInt(3) - 1);
     }
 
     @Override
     public GamePostRequestDTO insertGameResult(GamePostRequestDTO gamePostRequestDTO,
                                                GameGetResponseDTO gameGetResponseDTO){
-        int index = 0;
-        int score = 0;
+        int score = (int) IntStream.range(0,gameGetResponseDTO.getCorrectSongNames().length)
+                            .filter(i -> gameGetResponseDTO.getCorrectSongNames()[i].equals(gamePostRequestDTO.getSongName()[i]))
+                            .count();
 
-        for(String correctSongName : gameGetResponseDTO.getCorrectSongNames()){
-            if (correctSongName.equals(gamePostRequestDTO.getSongName()[index])){
-                score += 1;
-            }
-            index += 1;
-        }
-        GameScore gameScore = new GameScore();
-        UserProfile userProfile = new UserProfile();
-        userProfile.setUserId(gamePostRequestDTO.getUserId());
-        gameScore.setUserProfile(userProfile);
-        gameScore.setScore(score);
-        gameScore.setTime(gamePostRequestDTO.getUserTimeTaken());
+        UserProfile userProfile = setUserProfile(gamePostRequestDTO);
+        GameScore gameScore = setGameScore(userProfile, gamePostRequestDTO, score);
+
         gameScoreRepository.save(gameScore);
         gamePostRequestDTO.setUserAtPosition(
                 gameScoreRepository.findPositionByScoreAndTime(
@@ -77,4 +64,19 @@ public class GameServiceImpl implements GameService{
         gamePostRequestDTO.setUserScore(score);
         return gamePostRequestDTO;
     }
+
+    private UserProfile setUserProfile(GamePostRequestDTO gamePostRequestDTO){
+        UserProfile userProfile = new UserProfile();
+        userProfile.setUserId(gamePostRequestDTO.getUserId());
+        return userProfile;
+    }
+
+    private GameScore setGameScore(UserProfile userProfile, GamePostRequestDTO gamePostRequestDTO, int score){
+        GameScore gameScore = new GameScore();
+        gameScore.setUserProfile(userProfile);
+        gameScore.setScore(score);
+        gameScore.setTime(gamePostRequestDTO.getUserTimeTaken());
+        return gameScore;
+    }
 }
+
