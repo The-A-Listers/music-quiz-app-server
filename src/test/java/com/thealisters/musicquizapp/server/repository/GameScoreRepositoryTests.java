@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
@@ -34,6 +36,17 @@ class GameScoreRepositoryTests {
     @Test
     public void testFindPositionByScoreAndTime(){
         assertThat(gameScoreRepository.findPositionByScoreAndTime(7,27)).isPositive();
+    }
+
+    @Test
+    public void testCreateGameScore(){
+        UserProfile userProfile = new UserProfile("1000","Sherlock Holmes", true, false);
+        userProfileRepository.save(userProfile);
+        var userId = userProfileRepository.findById("1000");
+        GameScore gameScore = new GameScore(2000L,userProfile,8, 12);
+        gameScoreRepository.save(gameScore);
+        Optional<GameScore> savedGameScore = gameScoreRepository.findById(gameScore.getGameId());
+        assertThat(savedGameScore).isPresent();
     }
 
 }
