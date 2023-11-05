@@ -6,6 +6,7 @@ import lombok.Setter;
 public class GamePostRequestDTO {
 
     @Getter
+    @Setter
     private String userId;
     @Getter
     @Setter
@@ -19,6 +20,7 @@ public class GamePostRequestDTO {
     private int userScore;
 
     @Getter
+    @Setter
     private int userTimeTaken;
 
     @Getter

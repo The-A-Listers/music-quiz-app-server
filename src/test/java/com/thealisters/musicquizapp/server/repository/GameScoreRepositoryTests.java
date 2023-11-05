@@ -2,6 +2,7 @@ package com.thealisters.musicquizapp.server.repository;
 
 import com.thealisters.musicquizapp.server.model.GameScore;
 import com.thealisters.musicquizapp.server.model.UserProfile;
+import com.thealisters.musicquizapp.server.testdata.MusicAppTestData;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -35,15 +36,14 @@ class GameScoreRepositoryTests {
 
     @Test
     public void testFindPositionByScoreAndTime(){
-        assertThat(gameScoreRepository.findPositionByScoreAndTime(7,27)).isPositive();
+        assertThat(gameScoreRepository.findPositionByScoreAndTime(MusicAppTestData.getScore(),MusicAppTestData.getTime())).isPositive();
     }
 
     @Test
     public void testCreateGameScore(){
-        UserProfile userProfile = new UserProfile("1000","Sherlock Holmes", true, false);
+        UserProfile userProfile = new UserProfile(MusicAppTestData.getUserId(),MusicAppTestData.getUserName(), true, false);
         userProfileRepository.save(userProfile);
-        var userId = userProfileRepository.findById("1000");
-        GameScore gameScore = new GameScore(2000L,userProfile,8, 12);
+        GameScore gameScore = new GameScore(MusicAppTestData.getGameId(),userProfile,MusicAppTestData.getScore(), MusicAppTestData.getTime());
         gameScoreRepository.save(gameScore);
         Optional<GameScore> savedGameScore = gameScoreRepository.findById(gameScore.getGameId());
         assertThat(savedGameScore).isPresent();
