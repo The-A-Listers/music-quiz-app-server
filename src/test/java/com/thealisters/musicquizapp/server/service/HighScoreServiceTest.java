@@ -1,5 +1,6 @@
 package com.thealisters.musicquizapp.server.service;
 
+import com.thealisters.musicquizapp.server.dto.UserHighScoreDTO;
 import com.thealisters.musicquizapp.server.repository.GameScoreRepository;
 import com.thealisters.musicquizapp.server.testdata.MusicAppTestData;
 import org.junit.jupiter.api.BeforeAll;
@@ -31,12 +32,12 @@ public class HighScoreServiceTest {
     public void testGetTopUserScoresWithPosition(){
         when(gameScoreRepository.getTopUserScoresWithPosition(
                 MusicAppTestData.getHighScoreUserId(), MusicAppTestData.getHighScoreFetchLimit()))
-                .thenReturn(Arrays.asList(new Object[]{MusicAppTestData.getHighScoreUserId(), 10, 50, 1},
-                        new Object[]{MusicAppTestData.getHighScoreUserId(), 3, 22, 2},
-                        new Object[]{MusicAppTestData.getHighScoreUserId(),1,24, 3},
-                        new Object[]{MusicAppTestData.getHighScoreUserId(),1, 30, 4},
-                        new Object[]{MusicAppTestData.getHighScoreUserId(),1, 32, 5}));
-        List<Object[]> highScores = highScoreService.getTopUserScoresWithPosition(MusicAppTestData.getHighScoreUserId(),
+                .thenReturn(Arrays.asList(new Object[]{MusicAppTestData.getHighScoreUserId(), 10, 50, 1L},
+                        new Object[]{MusicAppTestData.getHighScoreUserId(), 3, 22, 2L},
+                        new Object[]{MusicAppTestData.getHighScoreUserId(),1,24, 3L},
+                        new Object[]{MusicAppTestData.getHighScoreUserId(),1, 30, 4L},
+                        new Object[]{MusicAppTestData.getHighScoreUserId(),1, 32, 5L}));
+        List<UserHighScoreDTO> highScores = highScoreService.getTopUserScoresWithPosition(MusicAppTestData.getHighScoreUserId(),
                         MusicAppTestData.getHighScoreFetchLimit());
         assertEquals(MusicAppTestData.getHighScoreFetchLimit(), highScores.size());
     }

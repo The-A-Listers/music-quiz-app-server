@@ -1,5 +1,6 @@
 package com.thealisters.musicquizapp.server.repository;
 
+import com.thealisters.musicquizapp.server.dto.UserHighScoreDTO;
 import com.thealisters.musicquizapp.server.model.GameScore;
 import com.thealisters.musicquizapp.server.model.UserProfile;
 import com.thealisters.musicquizapp.server.testdata.MusicAppTestData;
@@ -35,6 +36,7 @@ class GameScoreRepositoryTests {
     @Mock
     private UserProfileRepository mockUserProfileRepository;
 
+
     @Test
     void testFindAll() {
         UserProfile userProfile = new UserProfile("1","amjad",true,false);
@@ -63,12 +65,11 @@ class GameScoreRepositoryTests {
     public void testGetTopUserScoresWithPosition(){
         when(mockGameScoreRepository.getTopUserScoresWithPosition(MusicAppTestData.getHighScoreUserId(),
                 MusicAppTestData.getHighScoreFetchLimit()))
-                .thenReturn(Arrays.asList(new Object[]{MusicAppTestData.getHighScoreUserId(), 10, 50, 1},
-                        new Object[]{MusicAppTestData.getHighScoreUserId(), 3, 22, 2},
-                        new Object[]{MusicAppTestData.getHighScoreUserId(),1,24, 3},
-                        new Object[]{MusicAppTestData.getHighScoreUserId(),1, 30, 4},
-                        new Object[]{MusicAppTestData.getHighScoreUserId(),1, 32, 5}
-                ));
+                .thenReturn(Arrays.asList(new Object[] {MusicAppTestData.getHighScoreUserId(), 10, 50, 1},
+                        new Object[]{MusicAppTestData.getHighScoreUserId(), 3, 22, 2L},
+                        new Object[] {MusicAppTestData.getHighScoreUserId(),1,24, 3L},
+                        new Object[]{MusicAppTestData.getHighScoreUserId(),1, 30, 4L},
+                        new Object[]{MusicAppTestData.getHighScoreUserId(),1, 32, 5L}));
 
         List<Object[]> highScores = mockGameScoreRepository.getTopUserScoresWithPosition(
                 MusicAppTestData.getHighScoreUserId(),

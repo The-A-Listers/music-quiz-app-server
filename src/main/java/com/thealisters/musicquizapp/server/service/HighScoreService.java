@@ -1,5 +1,6 @@
 package com.thealisters.musicquizapp.server.service;
 
+import com.thealisters.musicquizapp.server.dto.UserHighScoreDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -7,6 +8,6 @@ import java.util.List;
 
 public interface HighScoreService {
 
-    List<Object[]> getTopUserScoresWithPosition(String userId, Integer limit);
+    List<UserHighScoreDTO> getTopUserScoresWithPosition(String userId, Integer limit);
 
 }
