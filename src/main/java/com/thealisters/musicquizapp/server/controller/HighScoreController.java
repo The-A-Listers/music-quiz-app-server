@@ -1,8 +1,10 @@
 package com.thealisters.musicquizapp.server.controller;
 
+import com.thealisters.musicquizapp.server.dto.ScoreResponseDTO;
 import com.thealisters.musicquizapp.server.dto.UserHighScoreDTO;
 import com.thealisters.musicquizapp.server.service.HighScoreService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,9 +18,9 @@ public class HighScoreController {
     HighScoreService highScoreService;
 
 
-    @GetMapping("/")
-    public void getHighScores(){
-
+    @GetMapping()
+    public ResponseEntity<List<ScoreResponseDTO>> getTopScores(@RequestParam(name = "limit", defaultValue="5") int limit){
+        return new ResponseEntity<>(highScoreService.getScoresInDescOrder(limit), HttpStatus.OK);
     }
 
     @GetMapping({"/user"})

@@ -1,6 +1,5 @@
 package com.thealisters.musicquizapp.server.repository;
 
-import com.thealisters.musicquizapp.server.dto.UserHighScoreDTO;
 import com.thealisters.musicquizapp.server.model.GameScore;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -23,6 +22,10 @@ public interface GameScoreRepository extends JpaRepository<GameScore, Long> {
             "  LIMIT :limit\n" +
             ") AS user_scores", nativeQuery = true)
     List<Object[]> getTopUserScoresWithPosition(@Param("userId") String userId, @Param("limit") int limit);
+
+    @Query(value="SELECT u.user_name, gs.score, gs.time FROM user_profile u JOIN game_score gs ON u.user_id = gs.user_id ORDER BY gs.score DESC LIMIT :limit", nativeQuery = true)
+    List<Object[]> findAllScoresInDescOrderLimitBy(@Param("limit") Integer limit);
+
 }
 
 
