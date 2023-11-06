@@ -2,9 +2,12 @@ package com.thealisters.musicquizapp.server.repository;
 
 import com.thealisters.musicquizapp.server.model.GameScore;
 import com.thealisters.musicquizapp.server.model.UserProfile;
+import com.thealisters.musicquizapp.server.testdata.MusicAppTestData;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -29,6 +32,21 @@ class GameScoreRepositoryTests {
         Iterable<GameScore> gameScores = gameScoreRepository.findAll();
 
         assertThat(gameScores).hasSize(3);
+    }
+
+    @Test
+    public void testFindPositionByScoreAndTime(){
+        assertThat(gameScoreRepository.findPositionByScoreAndTime(MusicAppTestData.getScore(),MusicAppTestData.getTime())).isPositive();
+    }
+
+    @Test
+    public void testCreateGameScore(){
+        UserProfile userProfile = new UserProfile(MusicAppTestData.getUserId(),MusicAppTestData.getUserName(), true, false);
+        userProfileRepository.save(userProfile);
+        GameScore gameScore = new GameScore(MusicAppTestData.getGameId(),userProfile,MusicAppTestData.getScore(), MusicAppTestData.getTime());
+        gameScoreRepository.save(gameScore);
+        Optional<GameScore> savedGameScore = gameScoreRepository.findById(gameScore.getGameId());
+        assertThat(savedGameScore).isPresent();
     }
 
 }
