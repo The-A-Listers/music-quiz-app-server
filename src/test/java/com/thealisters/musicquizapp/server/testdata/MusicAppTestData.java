@@ -51,6 +51,12 @@ public class MusicAppTestData {
     @Getter
     private static final int numberOfSongs = 2;
 
+    @Getter
+    private static final String highScoreUserId = "100";
+
+    @Getter
+    private static final Integer highScoreFetchLimit = 5;
+
     public static void initialiseMusicAppTestData(){
         mockSongListForSelection = Arrays.asList(
                 new Object[]{"Song Title1", "Song Artist1"},
