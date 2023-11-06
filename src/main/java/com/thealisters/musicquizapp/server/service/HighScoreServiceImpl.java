@@ -1,5 +1,6 @@
 package com.thealisters.musicquizapp.server.service;
 
+import com.thealisters.musicquizapp.server.dto.ScoreResponseDTO;
 import com.thealisters.musicquizapp.server.dto.UserHighScoreDTO;
 import com.thealisters.musicquizapp.server.repository.GameScoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,20 @@ public class HighScoreServiceImpl implements HighScoreService {
         }
 
         return userHighScoreDTOList;
+    }
+
+    public List<ScoreResponseDTO> getScoresInDescOrder(int limit) {
+        List<Object[]> result = gameScoreRepository.findAllScoresInDescOrderLimitBy(limit);
+        List<ScoreResponseDTO> scoresList = new ArrayList<>();
+        for (Object[] object : result) {
+            String userName = (String) object[0];
+            int score = (int) object[1];
+            int time = (int) object[2];
+
+            ScoreResponseDTO scoreResponseDTO = new ScoreResponseDTO(userName, score, time);
+            scoresList.add(scoreResponseDTO);
+        }
+        return scoresList;
     }
 
 }
