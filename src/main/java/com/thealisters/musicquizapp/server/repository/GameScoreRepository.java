@@ -1,5 +1,6 @@
 package com.thealisters.musicquizapp.server.repository;
 
+import com.thealisters.musicquizapp.server.dto.UserHighScoreDTO;
 import com.thealisters.musicquizapp.server.model.GameScore;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

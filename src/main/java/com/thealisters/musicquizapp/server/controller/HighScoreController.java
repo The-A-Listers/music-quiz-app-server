@@ -1,7 +1,9 @@
 package com.thealisters.musicquizapp.server.controller;
 
+import com.thealisters.musicquizapp.server.dto.UserHighScoreDTO;
 import com.thealisters.musicquizapp.server.service.HighScoreService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,8 +22,9 @@ public class HighScoreController {
     }
 
     @GetMapping({"/user"})
-    public List<Object[]> getUserHighScores(@RequestParam("userId") String userId,
-                                            @RequestParam("limit") Integer limit){
-            return highScoreService.getTopUserScoresWithPosition(userId, limit);
+    public ResponseEntity<List<UserHighScoreDTO>> getUserHighScores(@RequestParam("userId") String userId,
+                                                            @RequestParam("limit") Integer limit){
+        List<UserHighScoreDTO> userHighScoreDTO = highScoreService.getTopUserScoresWithPosition(userId, limit);
+        return ResponseEntity.ok(userHighScoreDTO);
     }
 }
