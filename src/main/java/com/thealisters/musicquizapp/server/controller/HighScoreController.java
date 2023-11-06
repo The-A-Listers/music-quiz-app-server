@@ -2,10 +2,9 @@ package com.thealisters.musicquizapp.server.controller;
 
 import com.thealisters.musicquizapp.server.service.HighScoreService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/highscores")
@@ -20,9 +19,9 @@ public class HighScoreController {
 
     }
 
-    @GetMapping({"/user/{userId}"})
-    public void getUserHighScores(@PathVariable("userId") String userId){
-
+    @GetMapping({"/user"})
+    public List<Object[]> getUserHighScores(@RequestParam("userId") String userId,
+                                            @RequestParam("limit") Integer limit){
+            return highScoreService.getTopUserScoresWithPosition(userId, limit);
     }
-
 }
