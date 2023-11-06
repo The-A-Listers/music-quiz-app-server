@@ -30,7 +30,7 @@ public class GameController {
     }
 
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<String> getGame(HttpSession httpSession, int numberOfSongs)
+    public ResponseEntity<String> getGame(HttpSession httpSession,@RequestParam int numberOfSongs)
             throws MusicGameNotFoundException{
         try {
             GameGetResponseDTO gameGetResponseDTO = gameService.getGameInputs(numberOfSongs);
@@ -69,7 +69,8 @@ public class GameController {
         GameGetResponseDTO gameGetResponseDTO = (GameGetResponseDTO) session.getAttribute("gameGetResponseDTO");
         gamePostRequestDTO = gameService.insertGameResult(gamePostRequestDTO, gameGetResponseDTO);
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("musicquizapp","/api/v1/musicquizapp/"+ gamePostRequestDTO.getUserId());
+        if (gamePostRequestDTO != null)
+            httpHeaders.add("musicquizapp","/api/v1/musicquizapp/"+ gamePostRequestDTO.getUserId());
         return new ResponseEntity<>(gamePostRequestDTO, httpHeaders, HttpStatus.CREATED);
     }
 }

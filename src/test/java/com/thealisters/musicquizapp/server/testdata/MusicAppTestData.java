@@ -16,10 +16,10 @@ public class MusicAppTestData {
     private static List<Object[]> mockSongListForSelection = new ArrayList<>();
 
     @Getter
-    private static final GameGetResponseDTO gameGetResponseDTO = new GameGetResponseDTO();
+    private static  GameGetResponseDTO gameGetResponseDTO = null;
 
     @Getter
-    private static final GamePostRequestDTO gamePostRequestDTO = new GamePostRequestDTO();
+    private static  GamePostRequestDTO gamePostRequestDTO = new GamePostRequestDTO();
 
     @Getter
     private static final String[] mockURLListForSelection = new String[2];
@@ -30,7 +30,7 @@ public class MusicAppTestData {
     @Getter
     private static final int songListLength = 2;
 
-    private static final UserProfile userProfile = new UserProfile();
+    private static UserProfile userProfile = null;
     @Getter
     private static final String userId = "2000";
     @Getter
@@ -60,21 +60,20 @@ public class MusicAppTestData {
         mockURLListForSelection[0] = "URL1";
         mockURLListForSelection[1] = "URL2";
 
-        gameGetResponseDTO.setCorrectSongNames(
-                mockSongListForSelection.stream().map((object) -> object[0]+","+object[1]).toArray(String[]::new));
-        gameGetResponseDTO.setSongURLForSelection(mockURLListForSelection);
+        gameGetResponseDTO =
+                new GameGetResponseDTO(songName, mockURLListForSelection,
+                        mockSongListForSelection.stream().map((object) -> object[0]+","+object[1]).toArray(String[]::new));
 
         songName[0] = "Song Title1";
         songName[1] = "Song Title2";
+
         gameGetResponseDTO.setCorrectSongNames(songName);
         gamePostRequestDTO.setUserId(userId);
         gamePostRequestDTO.setSongName(songName);
         gamePostRequestDTO.setSongURL(mockURLListForSelection);
         gamePostRequestDTO.setUserTimeTaken(time);
 
-        userProfile.setUserId(userId);
-        userProfile.setUserName(userName);
-        userProfile.setAdminStatus(true);
-        userProfile.setBanStatus(false);
+        userProfile = new UserProfile(userId, userName, true, false);
+
    }
 }
