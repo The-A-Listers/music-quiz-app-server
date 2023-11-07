@@ -64,8 +64,8 @@ public class SongInitialiser implements CommandLineRunner{
             throw new IllegalArgumentException("CSV row must contain at least 2 elements (sno, songName)");
         }
         int songRankId = Integer.parseInt(row[0]);
-        String songName = row[1];
-        String songArtist = row[2];
+        String songArtist = row[1];
+        String songName = row[2];
         Song song = new Song();
         song.setSongRankId(songRankId);
         song.setSongName(songName);
