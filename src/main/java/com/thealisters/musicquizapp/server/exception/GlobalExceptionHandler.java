@@ -7,27 +7,23 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-    @ExceptionHandler(value = NumberOfSongsNotFoundException.class )
-    public ResponseEntity<String> handleNumberOfSongsNotProvidedException(
-            NumberOfSongsNotFoundException exception){
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
-    }
 
-    @ExceptionHandler(value = MusicGameNotFoundException.class)
-    public ResponseEntity handleMusicGameNotFoundException(
-            MusicGameNotFoundException e) {
+
+    @ExceptionHandler(value = RequestParamNotFoundException.class)
+    public ResponseEntity handleRequestParamNotFoundException(
+            RequestParamNotFoundException e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
 
-    @ExceptionHandler(value = UserIdNotFoundException.class)
-    public ResponseEntity handleUserIdNotFoundException(
-            UserIdNotFoundException e) {
+    @ExceptionHandler(value = RecordNotFoundException.class)
+    public ResponseEntity handleRecordNotFoundException(
+            RecordNotFoundException e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
 
-    @ExceptionHandler(value = GameScoreInsertionError.class)
-    public ResponseEntity handleGameScoreInsertionError(
-            GameScoreInsertionError e) {
+    @ExceptionHandler(value = InsertionException.class)
+    public ResponseEntity handleInsertionException(
+            InsertionException e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
 }
