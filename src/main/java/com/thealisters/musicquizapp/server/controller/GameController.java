@@ -51,9 +51,10 @@ public class GameController {
         JSONObject jsonObject = new JSONObject();
         JSONArray songNameArray = createJSONObject(gameGetResponseDTO.getSongNameForSelection());
         JSONArray songURLArray =  createJSONObject(gameGetResponseDTO.getSongURLForSelection());
-
+        JSONArray songArtistArray = createJSONObject(gameGetResponseDTO.getSongArtistForSelection());
         jsonObject.put("songName", songNameArray);
         jsonObject.put("songURL", songURLArray);
+        jsonObject.put("songArtist", songArtistArray);
         return jsonObject;
 
     }
