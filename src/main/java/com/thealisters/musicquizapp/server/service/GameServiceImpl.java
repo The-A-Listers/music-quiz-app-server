@@ -82,8 +82,8 @@ public class GameServiceImpl implements GameService{
                 gameScoreRepository.findPositionByScoreAndTime(
                         score,gamePostRequestDTO.getUserTimeTaken()));
         gamePostRequestDTO.setSongName(gameGetResponseDTO.getCorrectSongNames());
-        gamePostRequestDTO.setSongURL(gameGetResponseDTO.getSongURLForSelection());
-        gamePostRequestDTO.setSongArtist(gameGetResponseDTO.getCorrectArtist());
+        //gamePostRequestDTO.setSongURL(gameGetResponseDTO.getSongURLForSelection());
+        //gamePostRequestDTO.setSongArtist(gameGetResponseDTO.getCorrectArtist());
         gamePostRequestDTO.setUserScore(score);
         return gamePostRequestDTO;
     }
