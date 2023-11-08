@@ -28,6 +28,9 @@ public class MusicAppTestData {
     private static final String[] songName = new String[2];
 
     @Getter
+    private static final String[] songArtist = new String[2];
+
+    @Getter
     private static final int songListLength = 2;
 
     private static UserProfile userProfile = null;
@@ -66,8 +69,13 @@ public class MusicAppTestData {
         mockURLListForSelection[0] = "URL1";
         mockURLListForSelection[1] = "URL2";
 
+        songArtist[0] = "Song Artist1";
+        songArtist[1] = "Song Artist2";
+
+
         gameGetResponseDTO =
                 new GameGetResponseDTO(songName, mockURLListForSelection,
+                        songName, songArtist,
                         mockSongListForSelection.stream().map((object) -> object[0]+","+object[1]).toArray(String[]::new));
 
         songName[0] = "Song Title1";

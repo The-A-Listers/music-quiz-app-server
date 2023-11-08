@@ -41,10 +41,14 @@ public class GameServiceTest {
         when(songRepository.getRandomSongNames(MusicAppTestData.getNumberOfSongs())).thenReturn(MusicAppTestData.getMockSongListForSelection());
         GameGetResponseDTO gameGetResponseDTOInput = gameServiceImpl.getGameInputs(MusicAppTestData.getNumberOfSongs());
         assertEquals(MusicAppTestData.getSongListLength(), gameGetResponseDTOInput.getCorrectSongNames().length);
+        assertEquals(MusicAppTestData.getSongListLength(), gameGetResponseDTOInput.getCorrectArtist().length);
         assertEquals(MusicAppTestData.getSongListLength(), gameGetResponseDTOInput.getSongNameForSelection().length);
 
         assertEquals(MusicAppTestData.getSongName()[0], gameGetResponseDTOInput.getCorrectSongNames()[0]);
         assertEquals(MusicAppTestData.getSongName()[1], gameGetResponseDTOInput.getCorrectSongNames()[1]);
+
+        assertEquals(MusicAppTestData.getSongArtist()[0], gameGetResponseDTOInput.getCorrectArtist()[0]);
+        assertEquals(MusicAppTestData.getSongArtist()[1], gameGetResponseDTOInput.getCorrectArtist()[1]);
 
 
     }
