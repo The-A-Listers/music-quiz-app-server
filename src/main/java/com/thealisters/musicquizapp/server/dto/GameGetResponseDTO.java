@@ -20,4 +20,8 @@ public class GameGetResponseDTO {
     @Getter
     private String[] correctSongNames;
 
+    @Getter
+    @Setter
+    private String[] songArtistForSelection;
+
 }

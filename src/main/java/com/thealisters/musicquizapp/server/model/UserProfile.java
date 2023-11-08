@@ -22,10 +22,10 @@ public class UserProfile {
         @Column
         String userName;
 
-        @Column
+        @Column(columnDefinition = "BOOLEAN DEFAULT FALSE")
         boolean adminStatus;
 
-        @Column
+        @Column(columnDefinition = "BOOLEAN DEFAULT FALSE")
         boolean banStatus;
 
 }
