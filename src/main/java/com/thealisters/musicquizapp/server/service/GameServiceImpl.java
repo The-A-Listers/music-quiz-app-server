@@ -26,11 +26,13 @@ public class GameServiceImpl implements GameService{
     @Override
     public GameGetResponseDTO getGameInputs(int numberOfSongs){
         List<Object[]> songListForSelection = songRepository.getRandomSongNames(numberOfSongs);
-        //Only songNames for display to user
+        //songNames and songArtistNames for display to user
         String[] songNames = songListForSelection.stream().map(object -> object[0]).toArray(String[]::new);
+        String[] songArtistNames = songListForSelection.stream().map(object -> object[1]).toArray(String[]::new);
 
         GameGetResponseDTO gameGetResponseDTO = new GameGetResponseDTO();
         gameGetResponseDTO.setCorrectSongNames(songNames);
+        gameGetResponseDTO.setSongArtistForSelection(songArtistNames);
 
         //SongNames, Artist name to give search criteria to Deezer API
         String[] correctSongNames = songListForSelection.stream().map(
