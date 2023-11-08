@@ -68,9 +68,11 @@ public class GameController {
     }
 
     @PostMapping
-    public ResponseEntity<GamePostRequestDTO> postGame(@RequestBody GamePostRequestDTO gamePostRequestDTO, HttpSession session)
+    public ResponseEntity<GamePostRequestDTO> postGame(@RequestBody GamePostRequestDTO gamePostRequestDTO)
                     throws RequestParamNotFoundException, InsertionException {
-        GameGetResponseDTO gameGetResponseDTO = (GameGetResponseDTO) session.getAttribute("gameGetResponseDTO");
+        //GameGetResponseDTO gameGetResponseDTO = (GameGetResponseDTO) session.getAttribute("gameGetResponseDTO");
+        GameGetResponseDTO gameGetResponseDTO = new GameGetResponseDTO();
+        gameGetResponseDTO.setCorrectSongNames(gamePostRequestDTO.getCorrectSongName());
         if (gamePostRequestDTO.getUserId() == null || gamePostRequestDTO.getUserId().isEmpty()){
             throw new RequestParamNotFoundException("UserId is not passed so cannot insert scores");
         }
