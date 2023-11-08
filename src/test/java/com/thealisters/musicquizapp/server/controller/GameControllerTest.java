@@ -3,7 +3,7 @@ package com.thealisters.musicquizapp.server.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thealisters.musicquizapp.server.dto.GameGetResponseDTO;
 import com.thealisters.musicquizapp.server.dto.GamePostRequestDTO;
-import com.thealisters.musicquizapp.server.exception.MusicGameNotFoundException;
+import com.thealisters.musicquizapp.server.exception.RecordNotFoundException;
 import com.thealisters.musicquizapp.server.service.GameServiceImpl;
 import com.thealisters.musicquizapp.server.testdata.MusicAppTestData;
 
@@ -19,7 +19,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpSession;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -67,12 +66,14 @@ public class GameControllerTest {
     }
 
     @Test
-    void getGame_successful() throws MusicGameNotFoundException, Exception {
+    void getGame_successful() throws RecordNotFoundException, Exception {
         //MockResponse to pass to service
         GameGetResponseDTO mockResponseDTO =
                 new GameGetResponseDTO(MusicAppTestData.getSongName(),
                         MusicAppTestData.getMockURLListForSelection(),
-                        MusicAppTestData.getSongName());
+                        MusicAppTestData.getSongName(),
+                        MusicAppTestData.getSongArtist(),
+                        MusicAppTestData.getSongArtist());
 
         //when service called use mockresponseDTO
         when(gameServiceImpl.getGameInputs(MusicAppTestData.getNumberOfSongs())).thenReturn(mockResponseDTO);

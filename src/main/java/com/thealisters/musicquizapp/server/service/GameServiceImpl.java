@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Service
@@ -26,13 +28,16 @@ public class GameServiceImpl implements GameService{
     @Override
     public GameGetResponseDTO getGameInputs(int numberOfSongs){
         List<Object[]> songListForSelection = songRepository.getRandomSongNames(numberOfSongs);
-        //Only songNames for display to user
+        //songNames and songArtistNames for display to user
         String[] songNames = songListForSelection.stream().map(object -> object[0]).toArray(String[]::new);
+        String[] songArtistNames = songListForSelection.stream().map(object -> object[1]).toArray(String[]::new);
 
+        //Set correctSongNames and correctSongArtist for display later
         GameGetResponseDTO gameGetResponseDTO = new GameGetResponseDTO();
         gameGetResponseDTO.setCorrectSongNames(songNames);
+        gameGetResponseDTO.setCorrectArtist(songArtistNames);
 
-        //SongNames, Artist name to give search criteria to Deezer API
+         //SongNames, Artist name to give search criteria to Deezer API
         String[] correctSongNames = songListForSelection.stream().map(
                 objects -> (String) objects[0]+","+(String) objects[1]).toArray(String[]::new);
 
@@ -40,15 +45,26 @@ public class GameServiceImpl implements GameService{
         String[] songURLForSelection = deezerService.getSongURL(correctSongNames);
         gameGetResponseDTO.setSongURLForSelection(songURLForSelection);
 
+        List<String[]> songDataList = songListForSelection.stream()
+                .map(objects -> new String[]{(String) objects[0], (String) objects[1]})
+                .collect(Collectors.toList());
+
+        jumbleSongNames(songDataList);
+        String[] jumbledSongNames = songDataList.stream()
+                .map(data -> data[0])
+                .toArray(String[]::new);
+
+        String[] jumbledArtistNames = songDataList.stream()
+                .map(data -> data[1])
+                .toArray(String[]::new);
         //Jumble the songNames to be displayed to user
-        String[] songNameForSelection = Arrays.copyOf(songNames, songNames.length);
-        jumbleSongNames(songNameForSelection);
-        gameGetResponseDTO.setSongNameForSelection(songNameForSelection);
+        gameGetResponseDTO.setSongNameForSelection(jumbledSongNames);
+        gameGetResponseDTO.setSongArtistForSelection(jumbledArtistNames);
         return gameGetResponseDTO;
     }
 
-    private static void jumbleSongNames(String[] songsToJumble) {
-        Arrays.sort(songsToJumble,(s1, s2) -> new Random().nextInt(3) - 1);
+    private static void jumbleSongNames(List<String[]> songDataList) {
+        Collections.shuffle(songDataList, new Random());
     }
 
     @Override
@@ -65,8 +81,9 @@ public class GameServiceImpl implements GameService{
         gamePostRequestDTO.setUserAtPosition(
                 gameScoreRepository.findPositionByScoreAndTime(
                         score,gamePostRequestDTO.getUserTimeTaken()));
-        gamePostRequestDTO.setSongName(gameGetResponseDTO.getSongNameForSelection());
+        gamePostRequestDTO.setSongName(gameGetResponseDTO.getCorrectSongNames());
         gamePostRequestDTO.setSongURL(gameGetResponseDTO.getSongURLForSelection());
+        gamePostRequestDTO.setSongArtist(gameGetResponseDTO.getCorrectArtist());
         gamePostRequestDTO.setUserScore(score);
         return gamePostRequestDTO;
     }

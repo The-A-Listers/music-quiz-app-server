@@ -20,6 +20,10 @@ public class GamePostRequestDTO {
     @Getter
     private String[] songURL;
 
+    @Setter
+    @Getter
+    private String[] songArtist;
+
     @Getter
     @Setter
     private int userScore;
