@@ -71,7 +71,9 @@ public class GameControllerTest {
         GameGetResponseDTO mockResponseDTO =
                 new GameGetResponseDTO(MusicAppTestData.getSongName(),
                         MusicAppTestData.getMockURLListForSelection(),
-                        MusicAppTestData.getSongName());
+                        MusicAppTestData.getSongName(),
+                        MusicAppTestData.getSongArtist(),
+                        MusicAppTestData.getSongArtist());
 
         //when service called use mockresponseDTO
         when(gameServiceImpl.getGameInputs(MusicAppTestData.getNumberOfSongs())).thenReturn(mockResponseDTO);
