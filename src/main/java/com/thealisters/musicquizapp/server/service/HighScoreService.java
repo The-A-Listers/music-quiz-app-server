@@ -10,6 +10,6 @@ import java.util.List;
 public interface HighScoreService {
 
     List<UserHighScoreDTO> getTopUserScoresWithPosition(String userId, Integer limit);
-    List<ScoreResponseDTO> getScoresInDescOrder(int limit);
+    List<ScoreResponseDTO> getScoresInAscTimeOrder(int limit);
 
 }

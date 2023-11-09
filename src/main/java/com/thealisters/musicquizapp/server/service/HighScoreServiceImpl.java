@@ -36,8 +36,8 @@ public class HighScoreServiceImpl implements HighScoreService {
         return userHighScoreDTOList;
     }
 
-    public List<ScoreResponseDTO> getScoresInDescOrder(int limit) {
-        List<Object[]> result = gameScoreRepository.findAllScoresInDescOrderLimitBy(limit);
+    public List<ScoreResponseDTO> getScoresInAscTimeOrder(int limit) {
+        List<Object[]> result = gameScoreRepository.findAllScoresInAscTimeOrderThenInDescScoreOrderLimitBy(limit);
         List<ScoreResponseDTO> scoresList = new ArrayList<>();
         for (Object[] object : result) {
             String userName = (String) object[0];
