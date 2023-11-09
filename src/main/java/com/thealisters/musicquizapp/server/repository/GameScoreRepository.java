@@ -23,9 +23,11 @@ public interface GameScoreRepository extends JpaRepository<GameScore, Long> {
             ") AS user_scores", nativeQuery = true)
     List<Object[]> getTopUserScoresWithPosition(@Param("userId") String userId, @Param("limit") int limit);
 
-    @Query(value="SELECT u.user_name, gs.score, gs.time FROM user_profile u JOIN game_score gs ON u.user_id = gs.user_id ORDER BY gs.score DESC LIMIT :limit", nativeQuery = true)
-    List<Object[]> findAllScoresInDescOrderLimitBy(@Param("limit") Integer limit);
-
+    @Query(value = "SELECT u.user_name, gs.score, gs.time FROM user_profile u " +
+            "JOIN game_score gs ON u.user_id = gs.user_id " +
+            "ORDER BY gs.time ASC, gs.score DESC LIMIT :limit",
+            nativeQuery = true)
+    List<Object[]> findAllScoresInAscTimeOrderThenInDescScoreOrderLimitBy(@Param("limit") Integer limit);
 }
 
 

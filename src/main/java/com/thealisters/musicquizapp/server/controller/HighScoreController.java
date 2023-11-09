@@ -31,7 +31,7 @@ public class HighScoreController {
             throw new RequestParamNotFoundException("Limit param is not set to limit the number of top high scores of all users");
         }
         try {
-            return new ResponseEntity<>(highScoreService.getScoresInDescOrder(limit), HttpStatus.OK);
+            return new ResponseEntity<>(highScoreService.getScoresInAscTimeOrder(limit), HttpStatus.OK);
         }catch(Exception e){
             logger.info("RecordNotFoundException: Could not fetch high scores for all users"+e.getMessage());
             throw new RecordNotFoundException("Error while fetching High Scores of all users");

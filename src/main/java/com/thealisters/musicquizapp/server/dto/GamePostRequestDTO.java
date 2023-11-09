@@ -16,6 +16,10 @@ public class GamePostRequestDTO {
     @Setter
     private String[] songName;
 
+    @Getter
+    @Setter
+    private String[] correctSongName;
+
     @Setter
     @Getter
     private String[] songURL;
