@@ -30,6 +30,7 @@ public class GameController {
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<String> getGame(HttpSession httpSession,@RequestParam int numberOfSongs)
             throws RecordNotFoundException, RequestParamNotFoundException {
+        logger.info("Session ID in GET request: " + httpSession.getId());
         if(numberOfSongs <= 0){
             throw new RequestParamNotFoundException("NumberOfSongs parameter is required. Provide a positive number of Songs");
         }
@@ -68,11 +69,12 @@ public class GameController {
     }
 
     @PostMapping
-    public ResponseEntity<GamePostRequestDTO> postGame(@RequestBody GamePostRequestDTO gamePostRequestDTO)
+    public ResponseEntity<GamePostRequestDTO> postGame(@RequestBody GamePostRequestDTO gamePostRequestDTO, HttpSession session)
                     throws RequestParamNotFoundException, InsertionException {
-        //GameGetResponseDTO gameGetResponseDTO = (GameGetResponseDTO) session.getAttribute("gameGetResponseDTO");
-        GameGetResponseDTO gameGetResponseDTO = new GameGetResponseDTO();
-        gameGetResponseDTO.setCorrectSongNames(gamePostRequestDTO.getCorrectSongName());
+        GameGetResponseDTO gameGetResponseDTO = (GameGetResponseDTO) session.getAttribute("gameGetResponseDTO");
+        //GameGetResponseDTO gameGetResponseDTO = new GameGetResponseDTO();
+        logger.info("Session ID in POST request: " + session.getId());
+        //gameGetResponseDTO.setCorrectSongNames(gamePostRequestDTO.getCorrectSongName());
         if (gamePostRequestDTO.getUserId() == null || gamePostRequestDTO.getUserId().isEmpty()){
             throw new RequestParamNotFoundException("UserId is not passed so cannot insert scores");
         }
